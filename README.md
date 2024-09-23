@@ -49,9 +49,9 @@ Before installing the library, ensure you have the following prerequisites:
 
 2. **Add your Project ID**:
 
- 1. Register and create a project at https://cloud.reown.com/sign-in.
+  - Register and create a project at https://cloud.reown.com/sign-in.
 
- 2. Add your Project ID to the .env file.
+  - Add your Project ID to the .env file.
 
 
 3. **Install the necessary dependencies:**:
