@@ -87,12 +87,24 @@ export const useSignAndSendTransfer = (
           extrinsicPayload
         );
 
-        console.log("Signed Extrinsic", signedExtrinsic);
-
-        const txId = await api.rpc.author.submitExtrinsic(signedExtrinsic);
-
-        setTxHash(txId.toString());
-        console.log("Transaction Id", txId.toString());
+        const txId = api.rpc.author.submitAndWatchExtrinsic(
+          signedExtrinsic,
+          (status: any) => {
+            if (status.isInBlock) {
+              console.log(
+                "Transaction included in block:",
+                status.asInBlock.toHex()
+              );
+              setTxHash(status.asInBlock.toHex());
+            } else if (status.isFinalized) {
+              console.log(
+                "Transaction finalized in block:",
+                status.asFinalized.toHex()
+              );
+              setTxHash(status.asFinalized.toHex());
+            }
+          }
+        );
 
         return txId.toString();
       } catch (error: any) {
@@ -106,5 +118,5 @@ export const useSignAndSendTransfer = (
     [accounts, signTransaction]
   );
 
-  return { signAndSendTransfer, txHash, isSigning, error };
+  return { signAndSendTransfer, txHash, isSigning, error, isReady };
 };
