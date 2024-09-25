@@ -13,7 +13,13 @@ export const useSignAndSendMessage = (
   const [error, setError] = useState<string | null>(null);
 
   const signAndSendSendMessage = useCallback(
-    async (programID: string, payloadProgram: string, meta: string, gasLimit: number, value:number) => {
+    async (
+      programID: string,
+      payloadProgram: string,
+      meta: string,
+      gasLimit: number,
+      value: number
+    ) => {
       if (!accounts || accounts.length === 0) {
         setError("No accounts available");
         return;
@@ -47,7 +53,7 @@ export const useSignAndSendMessage = (
         const metadata = ProgramMetadata.from(meta);
 
         const message = {
-          destination: programID, 
+          destination: programID,
           payload: payloadProgram,
           gasLimit: gasLimit,
           value: value,
@@ -97,17 +103,24 @@ export const useSignAndSendMessage = (
           extrinsicPayload
         );
 
-  
-        const txId = api.rpc.author.submitAndWatchExtrinsic(signedExtrinsic, (status:any) => {
-          if (status.isInBlock) {
-            console.log('Transaction included in block:', status.asInBlock.toHex());
-            setTxHash(status.asInBlock.toHex());
-            
-          } else if (status.isFinalized) {
-            console.log('Transaction finalized in block:', status.asFinalized.toHex());
-            setTxHash(status.asFinalized.toHex());
+        const txId = api.rpc.author.submitAndWatchExtrinsic(
+          signedExtrinsic,
+          (status: any) => {
+            if (status.isInBlock) {
+              console.log(
+                "Transaction included in block:",
+                status.asInBlock.toHex()
+              );
+              setTxHash(status.asInBlock.toHex());
+            } else if (status.isFinalized) {
+              console.log(
+                "Transaction finalized in block:",
+                status.asFinalized.toHex()
+              );
+              setTxHash(status.asFinalized.toHex());
+            }
           }
-        });
+        );
 
         return txId.toString();
       } catch (error: any) {
@@ -121,5 +134,5 @@ export const useSignAndSendMessage = (
     [accounts, signTransaction]
   );
 
-  return { signAndSendSendMessage, txHash, isSigning, error,isReady };
+  return { signAndSendSendMessage, txHash, isSigning, error, isReady };
 };
