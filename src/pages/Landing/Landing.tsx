@@ -37,16 +37,14 @@ function Landing() {
   const { enableWalletConnect, connected, accounts, signTransaction } =
     useWalletConnect();
 
-  // Hook to sign and send a transfer
   const { signAndSendTransfer, txHash, isSigning, error, isReady } =
     useSignAndSendTransfer(accounts, signTransaction);
 
-  // States for transfer parameters
+
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState("");
 
-  // Clipboard hook for copying the transaction hash
   const { onCopy, hasCopied } = useClipboard(txHash || "");
 
   const sendTransaction = () => {
@@ -79,7 +77,6 @@ function Landing() {
             accounts[0].address
           );
 
-          // Convertir el balance de Plancks a unidades (por ejemplo, DOT, KSM, etc.)
           const convertedBalance = format(balance.free, 12);
 
           setBalance(convertedBalance ?? "");
@@ -178,7 +175,6 @@ function Landing() {
 
         {connected && (
           <VStack>
-            {/* Transfer Section */}
             <VStack
               spacing={3}
               p={4}
@@ -292,7 +288,6 @@ function Landing() {
                             >
                               {txHash}
                             </Text>
-                            {/* Botón para copiar */}
                             <Button
                               size="md"
                               mt={4}
@@ -300,7 +295,7 @@ function Landing() {
                               onClick={onCopy}
                               colorScheme="teal"
                               variant="solid"
-                              leftIcon={<FiCopy />} // Icono añadido
+                              leftIcon={<FiCopy />} 
                               width="fit-content"
                             >
                               {hasCopied ? "Copied!" : "Copy Transaction Id"}
