@@ -7,6 +7,7 @@ import { Routing } from "./pages";
 import { useInitSails } from "./app/hooks";
 import { CONTRACT_DATA, sponsorName, sponsorMnemonic } from "./app/consts";
 import "@gear-js/vara-ui/dist/style.css";
+import { Box } from "@chakra-ui/react";
 
 function Component() {
   const { isApiReady } = useApi();
@@ -33,7 +34,7 @@ function Component() {
   // App with context
   return (
     <>
-      <Header isAccountVisible={isAccountReady} />
+      <Box h="150px" w="100%"/>
       {isAppReady ? <Routing /> : <ApiLoader />}
     </>
   );
